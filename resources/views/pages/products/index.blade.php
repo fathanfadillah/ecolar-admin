@@ -458,11 +458,13 @@
                             <td>{{$product->photo}}</td>
                             <td>{{$product->link}}</td>
                             <td>
-                                <a class="btn btn-primary" href="#" role="button">
+                                <a type="button" class="btn btn-primary" href="#" role="button">
                                     <i class="bi bi-pencil-fill"></i>
                                 </a>
-                                <a class="btn btn-primary" href="#" role="button">
-                                    <i class="bi bi-x-lg"></i>
+                                <a type="button" class="btn btn-primary" href="#"  id="myBtn" role="button">
+                                    <i class="bi bi-x-lg">
+                                        {{-- <input id="buttonDelete" type="button" value="{{$product->id}}"> --}}
+                                    </i>
                                 </a>
                             </td>
                         </tr>
@@ -474,9 +476,45 @@
     </div>
 </div>
 <!-- /.container-fluid -->
+
+<!-- Modal HTML -->
+<div id="myModal" class="modal fade m-4" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Confirmation</h5>
+            </div>
+            <div class="modal-body">
+                <p>Do you want to the product?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <form method="post" 
+                {{-- action="{{route('product', 1)}}" --}}
+                >
+                    @method('delete')
+                    @csrf
+                    <button type="submit" class="btn btn-primary">Delete</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 @endsection
 
 @section('script')
+
+<script type="application/javascript">
+    $(document).ready(function(){
+        $("#myBtn").click(function(event){
+            $("#myModal").modal("show");
+        });
+        // $("#buttonDelete").click(function(event){
+        //         console.log(event.target.value)
+        //     });
+    });
+</script>
+
 
 <!-- Bootstrap core JavaScript-->
 <script src="{{asset('css/vendor/jquery/jquery.min.js')}}"></script>
@@ -494,4 +532,8 @@
 
 <!-- Page level custom scripts -->
 <script src="{{asset('js/demo/datatables-demo.js')}}"></script>
+
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
 @endsection

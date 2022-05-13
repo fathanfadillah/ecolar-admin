@@ -76,9 +76,8 @@ class ProductController extends Controller
         $products->link = $request->link;
         $products->save();
 
-        return redirect()
-            ->route("product.index")
-            ->with("success", "Product created successfully.");
+        $products = Product::all();
+        return view("pages.products.index", compact("products"))->with("success", "Product created successfully.");
     }
 
     /**
@@ -158,8 +157,7 @@ class ProductController extends Controller
         $products->delete();
 
         // $product->delete();
-        return redirect()
-            ->route("products.index")
-            ->with("success", "Product deleted successfully");
+        $products = Product::all();
+        return view("pages.products.index", compact("products"))->with("success", "Product deleted successfully.");
     }
 }
