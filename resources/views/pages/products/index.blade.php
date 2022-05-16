@@ -403,24 +403,17 @@
 
 <!-- Begin Page Content -->
 <div class="container-fluid">
-    <!-- Page Heading -->
-    {{-- <h1 class="h3 mb-2 text-gray-800">Tables</h1>
-    <p class="mb-4">
-        DataTables is a third party plugin that is used to
-        generate the demo table below. For more information
-        about DataTables, please visit the
-        <a target="_blank" href="https://datatables.net"
-            >official DataTables documentation</a
-        >.
-    </p> --}}
+
+    @isset ($message)
+        <div class="alert alert-success">
+            {{ $message }}
+        </div>
+    @endisset
 
     <!-- DataTales Example -->
     <div class="card shadow mb-4">
         <div class="card-header py-3">
             <div class="m-0">
-                {{-- <span>Products</span><a class="btn btn-primary" href="#" role="button">
-                    Create New Product <i class="bi bi-plus-lg"></i>
-                </a> --}}
                 <div class="row align-items-center">
                     <div class="col mt-2">
                         <h5 class="font-weight-bold text-primary">Products</h5>
@@ -461,11 +454,10 @@
                                 <a type="button" class="btn btn-primary" href="#" role="button">
                                     <i class="bi bi-pencil-fill"></i>
                                 </a>
-                                <a type="button" class="btn btn-primary" href="#"  id="myBtn" role="button">
-                                    <i class="bi bi-x-lg">
-                                        {{-- <input id="buttonDelete" type="button" value="{{$product->id}}"> --}}
+                                <button id="delete-button" type="button" class="action btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop" value="{{$product->id}}">
+                                    <i class="bi bi-x-lg" value="{{$product->id}}">
                                     </i>
-                                </a>
+                                </button>
                             </td>
                         </tr>
                         @endforeach
@@ -477,54 +469,39 @@
 </div>
 <!-- /.container-fluid -->
 
-<!-- Modal HTML -->
-<div id="myModal" class="modal fade m-4" tabindex="-1">
+  
+  <!-- Modal -->
+  <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Confirmation</h5>
-            </div>
-            <div class="modal-body">
-                <p>Do you want to the product?</p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                <form method="post" 
-                {{-- action="{{route('product', 1)}}" --}}
-                >
-                    @method('delete')
-                    @csrf
-                    <button type="submit" class="btn btn-primary">Delete</button>
-                </form>
-            </div>
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="staticBackdropLabel">Confirmation</h5>
         </div>
+        <div class="modal-body">
+          Do you want to delete ?
+        </div>
+        <input id="delete-input" type="hidden" value="">
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+          <a id="save-button" type="button" class="btn btn-primary" href="#">Yes</a>
+        </div>
+      </div>
     </div>
-</div>
+  </div>
 @endsection
 
 @section('script')
 
 <script type="application/javascript">
     $(document).ready(function(){
-        $("#myBtn").click(function(event){
-            $("#myModal").modal("show");
-        });
-        // $("#buttonDelete").click(function(event){
-        //         console.log(event.target.value)
-        //     });
+        $(".action").on("click", function(event) {
+            let id = $(this).attr('value')
+            let url = '{{ route("product/destroy", ":id") }}';
+            url = url.replace(':id', id);
+            $("#save-button").attr("href", url)
+        })
     });
 </script>
-
-
-<!-- Bootstrap core JavaScript-->
-<script src="{{asset('css/vendor/jquery/jquery.min.js')}}"></script>
-<script src="{{asset('css/vendor/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
-
-<!-- Core plugin JavaScript-->
-<script src="{{asset('css/vendor/jquery-easing/jquery.easing.min.js')}}"></script>
-
-<!-- Custom scripts for all pages-->
-<script src="{{asset('js/sb-admin-2.min.js')}}"></script>
 
 <!-- Page level plugins -->
 <script src="{{asset('css/vendor/datatables/jquery.dataTables.min.js')}}"></script>
@@ -532,8 +509,6 @@
 
 <!-- Page level custom scripts -->
 <script src="{{asset('js/demo/datatables-demo.js')}}"></script>
-
-<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
 @endsection
