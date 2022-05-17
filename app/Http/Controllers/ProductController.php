@@ -150,14 +150,12 @@ class ProductController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function destroy(Product $product, $id)
-    {
-        $products = new Product();
-        $products->id = $request->id;
-        
+    {      
+        $products = Product::findOrFail($id);
         $products->delete();
-
-        // $product->delete();
+        
         $products = Product::all();
-        return view("pages.products.index", compact("products"))->with("success", "Product deleted successfully.");
+        $message = "Product deleted successfully";
+        return view("pages.products.index", compact("products", "message"));
     }
 }
