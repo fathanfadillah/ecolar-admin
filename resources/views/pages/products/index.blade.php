@@ -452,7 +452,7 @@
                             {{-- <td>{{$product->photo}}</td> --}}
                             <td>{{$product->link}}</td>
                             <td>
-                                <a type="button" class="btn btn-primary" href="#" role="button">
+                                <a type="button" class="btn btn-primary" href="{{route('product/show', $product->id)}}" role="button">
                                     <i class="bi bi-pencil-fill"></i>
                                 </a>
                                 <button id="delete-button" type="button" class="action btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop" value="{{$product->id}}">

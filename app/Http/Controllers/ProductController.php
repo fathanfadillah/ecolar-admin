@@ -15,8 +15,9 @@ class ProductController extends Controller
      */
     public function index()
     {
+        $page = "product";   
         $products = Product::all();
-        return view("pages.products.index", compact("products"));
+        return view("pages.products.index", compact("products", "page"));
     }
 
     public function getProductByCategory($id)
@@ -48,8 +49,9 @@ class ProductController extends Controller
      */
     public function create()
     {
+        $page = "product";   
         $categories = Category::all();
-        return view("pages.products.create", compact("categories"));
+        return view("pages.products.create", compact("categories", "page"));
     }
 
     /**
@@ -60,6 +62,7 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
+        $page = "product";   
         $validated = $request->validate([
             'category_id' => 'required|numeric',
             'name' => 'required|max:100',
@@ -77,7 +80,7 @@ class ProductController extends Controller
         $products->save();
 
         $products = Product::all();
-        return view("pages.products.index", compact("products"))->with("success", "Product created successfully.");
+        return view("pages.products.index", compact("products", "page"))->with("success", "Product created successfully.");
     }
 
     /**
@@ -88,9 +91,11 @@ class ProductController extends Controller
      */
     public function show($id)
     {
+
         $page = "product";
-        $products = Product::findOrFail($id);
-        return view("pages.products.show", compact("products", "page"));
+        $product = Product::findOrFail($id);
+        $categories = Category::all();
+        return view("pages.products.show", compact("product", "page", "categories"));
     }
 
     /**
@@ -150,12 +155,13 @@ class ProductController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function destroy(Product $product, $id)
-    {      
+    {
+        $page = "product";      
         $products = Product::findOrFail($id);
         $products->delete();
         
         $products = Product::all();
         $message = "Product deleted successfully";
-        return view("pages.products.index", compact("products", "message"));
+        return view("pages.products.index", compact("products", "message", "page"));
     }
 }

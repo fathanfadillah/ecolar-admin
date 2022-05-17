@@ -10,19 +10,38 @@
 <hr class="sidebar-divider my-0">
 
 <!-- Nav Item - Dashboard -->
-<li class="nav-item active">
+<li class="nav-item 
+    @if($page === "dashboard")
+        active
+    @endif
+">
     <a class="nav-link" href="{{route('/')}}">
         <i class="fas fa-fw fa-tachometer-alt"></i>
         <span>Dashboard</span></a>
 </li>
 
 <!-- Nav Item - Tables -->
-<li class="nav-item">
-    <a class="nav-link" href="{{route('product/index')}}">
+<li class="nav-item
+    @if($page === "category")
+        active
+    @endif
+">
+    <a class="nav-link" href="{{route('category/index')}}">
         <i class="fas fa-fw fa-table"></i>
-        <span>Tables</span>
+        <span>Categories</span>
     </a>
 </li>
+<li class="nav-item
+    @if($page === "product")
+        active
+    @endif
+">
+    <a class="nav-link" href="{{route('product/index')}}">
+        <i class="fas fa-fw fa-table"></i>
+        <span>Products</span>
+    </a>
+</li>
+
 
 <!-- Divider -->
 <hr class="sidebar-divider d-none d-md-block">
