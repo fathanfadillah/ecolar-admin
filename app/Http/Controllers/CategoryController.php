@@ -15,11 +15,10 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $page = "product";
-        $products = Product::all();
-        dd($products);
+        $page = "category";
+        $categories = Category::all();
 
-        return view("pages.products.index", compact("products", "page"));
+        return view("pages.categories.index", compact("categories", "page"));
     }
 
     // public function getProductByCategory($id)
