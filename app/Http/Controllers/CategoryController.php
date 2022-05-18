@@ -50,9 +50,8 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        
-
-        return view("pages.products.create");
+        $page = "categories";
+        return view("pages.categories.create", compact("page"));
     }
 
     /**
@@ -64,112 +63,60 @@ class CategoryController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'category_id' => 'required',
-            'name' => 'required|max:100',
-            'price' => 'required|number',
-            'photo' => 'nullable|max:255',
-            'link' => 'nullable|max:255'
+            'name' => 'required|max:100'
         ]);
 
-        $products = new Product();
-        $products->category_id = $request->category_id;
-        $products->name = $request->name;
-        $products->price = $request->price;
-        $products->photo = $request->photo;
-        $products->link = $request->link;
-        $products->save();
-
-        // $request->validate([
-        //     "name" => "required",
-        //     "detail" => "required",
-        // ]);
-
-        // Product::create($request->all());
+        $categories = new Category();
+        $categories->name = $request->name;
+        $categories->save();
 
         return redirect()
-            ->route("products.index")
-            ->with("success", "Product created successfully.");
+            ->route("category/index")
+            ->with("success", "Category created successfully.");
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Product  $product
-     * @return \Illuminate\Http\Response
-     */
     public function show($id)
     {
-        $page = "product";
-        $products = Product::findOrFail($id);
-        return view("pages.products.show", compact("products", "page"));
+        $page = "categories";
+        $categories = Category::findOrFail($id);
+        return view("pages.categories.show", compact("categories", "page"));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Product  $product
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Product $product)
+    public function edit(Category $category)
     {
-        return view("pages.products.edit", compact("product"));
+        $page = "categories";
+        $categories = Category::findOrFail($id);
+        return view("pages.categories.edit", compact("categories"));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Product  $product
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Product $product)
+    public function update(Request $request, Category $category)
     {
         $validated = $request->validate([
-            'id' => 'required|number',
-            'category_id' => 'required|number',
+            'id' => 'required|numeric',
             'name' => 'required|max:100',
-            'price' => 'required|number',
-            'photo' => 'nullable|max:255',
-            'link' => 'nullable|max:255'
+            
         ]);
 
-        $products = new Product();
-        $products->id = $request->id;
-        $products->category_id = $request->category_id;
-        $products->name = $request->name;
-        $products->price = $request->price;
-        $products->photo = $request->photo;
-        $products->link = $request->link;
-        $products->update();
+        $categories = Category::findOrFail($request->id);
 
-        // $request->validate([
-        //     "name" => "required",
-        //     "detail" => "required",
-        // ]);
-
-        // $product->update($request->all());
+        $categories->update([
+            'name' => $request->name
+        ]);
 
         return redirect()
-            ->route("products.index")
-            ->with("success", "Product updated successfully");
+            ->route("category/index")
+            ->with("success", "Category updated successfully");
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Product  $product
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Product $product, $id)
+    public function destroy(Category $category, $id)
     {
-        $products = new Product();
-        $products->id = $request->id;
+        $categories = new Category();
+        $categories->id = $request->id;
         
-        $products->delete();
+        $categories->delete();
 
-        // $product->delete();
         return redirect()
-            ->route("products.index")
-            ->with("success", "Product deleted successfully");
+            ->route("category/index")
+            ->with("success", "Category deleted successfully");
     }
 }

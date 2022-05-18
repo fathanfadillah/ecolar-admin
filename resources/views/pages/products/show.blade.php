@@ -390,27 +390,28 @@
             </h6>
         </div>
         <div class="card-body">
-                <form class="align-items-center" method="POST" action="{{ route('product/store') }}">
+                <form class="align-items-center" method="POST" action="{{ route('product/update') }}">
                     @csrf
                     <div class="row align-items-center g-3">
+                        <input type="hidden" id="id" name="id" value="{{ $product->id }}"> <br/>
                         <div class="col-auto">
                             <select class="form-control" name="category_id" id="category_id">
                                 @foreach ($categories as $category)
-                                    <option value={{$product->category_id}}>{{$category->name}}</option>
+                                    <option value="{{$product->category_id}}">{{$category->name}}</option>
                                 @endforeach
                             </select>
-                         </div>
-                        <div class="col-auto">
-                           <input type="text" class="form-control" id="name" name="name" placeholder="Name" value={{$product->name}}>
                         </div>
                         <div class="col-auto">
-                            <input type="number" class="form-control" id="price" name="price" placeholder="Price" value={{$product->price}}>
+                           <input type="text" class="form-control" id="name" name="name" placeholder="Name" value="{{$product->name}}">
                         </div>
                         <div class="col-auto">
-                            <input type="file" id="photo" name="photo" value={{$product->photo}}>
+                            <input type="number" class="form-control" id="price" name="price" placeholder="Price" value="{{$product->price}}">
                         </div>
                         <div class="col-auto">
-                            <input type="text" class="form-control" id="link" name="link" placeholder="Link" value={{$product->link}}>
+                            <input type="file" id="photo" name="photo" value="{{$product->photo}}">
+                        </div>
+                        <div class="col-auto">
+                            <input type="text" class="form-control" id="link" name="link" placeholder="Link" value="{{$product->link}}">
                         </div>
                         <div class="col-auto">
                             <button type="submit" class="btn btn-primary">UPDATE</button>

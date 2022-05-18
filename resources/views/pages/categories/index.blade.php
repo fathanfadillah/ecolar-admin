@@ -404,11 +404,11 @@
 <!-- Begin Page Content -->
 <div class="container-fluid">
 
-    @isset ($message)
+    @if ($message = Session::get('success'))
         <div class="alert alert-success">
             {{ $message }}
         </div>
-    @endisset
+    @endif
 
     <!-- DataTales Example -->
     <div class="card shadow mb-4">
@@ -419,8 +419,8 @@
                         <h5 class="font-weight-bold text-primary">Products</h5>
                     </div>
                     <div class="col text-right">
-                        <a class="btn btn-primary" href="{{route('product/create')}}" role="button">
-                            Create New Product <i class="bi bi-plus-lg"></i>
+                        <a class="btn btn-primary" href="{{route('category/create')}}" role="button">
+                            Create New Category <i class="bi bi-plus-lg"></i>
                         </a>
                     </div>
                 </div>
@@ -445,13 +445,9 @@
                         <tr> 
                             <td>{{$category->name}}</td>
                             <td>
-                                <a type="button" class="btn btn-primary" href="#" role="button">
+                                <a type="button" class="btn btn-primary" href="{{route('category/show', $category->id)}}" role="button">
                                     <i class="bi bi-pencil-fill"></i>
                                 </a>
-                                <button id="delete-button" type="button" class="action btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop" value="{{$category->id}}">
-                                    <i class="bi bi-x-lg" value="{{$category->id}}">
-                                    </i>
-                                </button>
                             </td>
                         </tr>
                         @endforeach

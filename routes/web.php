@@ -25,9 +25,11 @@ Route::get('product/create', [ProductController::class, "create"])->name('produc
 Route::post('product/store', [ProductController::class, "store"])->name('product/store');
 Route::get('product/destroy/{id}', [ProductController::class, "destroy"])->name('product/destroy');
 Route::get('product/show/{id}', [ProductController::class, "show"])->name('product/show');
+Route::post('product/update', [ProductController::class, "update"])->name('product/update');
 
 Route::get('category/index', [CategoryController::class, "index"])->name('category/index');
 Route::get('category/create', [CategoryController::class, "create"])->name('category/create');
 Route::post('category/store', [CategoryController::class, "store"])->name('category/store');
 Route::get('category/destroy/{id}', [CategoryController::class, "destroy"])->name('category/destroy');
 Route::get('category/show/{id}', [CategoryController::class, "show"])->name('category/show');
+Route::post('category/update', [CategoryController::class, "update"])->name('category/update');
