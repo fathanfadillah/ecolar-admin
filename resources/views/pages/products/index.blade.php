@@ -33,11 +33,11 @@
 <!-- Begin Page Content -->
 <div class="container-fluid">
 
-    @isset ($message)
+    @if ($message = Session::get('success'))
         <div class="alert alert-success">
             {{ $message }}
         </div>
-    @endisset
+    @endif
 
     <!-- DataTales Example -->
     <div class="card shadow mb-4">
@@ -66,6 +66,7 @@
                     <thead>
                         <tr>
                             <th>Name</th>
+                            <th>Category</th>
                             <th>Price</th>
                             <th>Photo</th>
                             <th>Link</th>
@@ -76,6 +77,7 @@
                         @foreach ($products as $product)
                         <tr> 
                             <td>{{$product->name}}</td>
+                            <td>{{$product->category->name}}</td>
                             <td>{{$product->price}}</td>
                             <td><img src="{{asset('images/'. $product->photo)}}"width="100" height="100"></td>
                             {{-- <td>{{$product->photo}}</td> --}}

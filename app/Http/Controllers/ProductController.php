@@ -119,32 +119,25 @@ class ProductController extends Controller
     public function update(Request $request, Product $product)
     {
         $validated = $request->validate([
-            'id' => 'required|number',
-            'category_id' => 'required|number',
+            'id' => 'required|numeric',
+            'category_id' => 'required|numeric',
             'name' => 'required|max:100',
-            'price' => 'required|number',
+            'price' => 'required|numeric',
             'photo' => 'nullable|max:255',
             'link' => 'nullable|max:255'
         ]);
 
-        $products = new Product();
-        $products->id = $request->id;
-        $products->category_id = $request->category_id;
-        $products->name = $request->name;
-        $products->price = $request->price;
-        $products->photo = $request->photo;
-        $products->link = $request->link;
-        $products->update();
-
-        // $request->validate([
-        //     "name" => "required",
-        //     "detail" => "required",
-        // ]);
-
-        // $product->update($request->all());
-
-        return redirect()
-            ->route("products.index")
+        $products = Product::findOrFail($request->id);
+        $products->update([
+            'category_id' => $request->category_id,
+            'name' => $request->name,
+            'price' => $request->price, 
+            'photo' => $request->photo,
+            'link' => $request->link
+        ]);
+       
+       return redirect()
+            ->route("product/index")
             ->with("success", "Product updated successfully");
     }
 
@@ -161,7 +154,9 @@ class ProductController extends Controller
         $products->delete();
         
         $products = Product::all();
-        $message = "Product deleted successfully";
-        return view("pages.products.index", compact("products", "message", "page"));
+        
+        return redirect()
+            ->route("product/index")
+            ->with("success", "Product deleted successfully");
     }
 }

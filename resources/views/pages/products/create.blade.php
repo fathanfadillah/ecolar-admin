@@ -401,10 +401,10 @@
                             </select>
                          </div>
                         <div class="col-auto">
-                           <input type="text" class="form-control" id="name" name="name" placeholder="Name">
+                           <input type="text" class="form-control" id="name" name="name" placeholder="Name" required>
                         </div>
                         <div class="col-auto">
-                            <input type="number" class="form-control" id="price" name="price" placeholder="Price">
+                            <input type="number" class="form-control" id="price" name="price" placeholder="Price" required>
                         </div>
                         <div class="col-auto">
                             <input type="file" id="photo" name="photo">
