@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Product;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\File;
 
 class ProductController extends Controller
 {
@@ -67,7 +69,7 @@ class ProductController extends Controller
             'category_id' => 'required|numeric',
             'name' => 'required|max:100',
             'price' => 'required|numeric',
-            'photo' => 'nullable|max:255',
+            'photo' => 'nullable|max:255|image|mimes:jpg,png,jpeg',
             'link' => 'nullable|max:255'
         ]);
 
@@ -77,10 +79,22 @@ class ProductController extends Controller
         $products->price = $request->price;
         $products->photo = $request->photo;
         $products->link = $request->link;
+
+        
+        if($request->hasFile('photo')){
+            $filenameWithExt = $request->file('photo')->getClientOriginalName();
+            $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
+            $filenameSimpan = $filename.'_'.time().'.png';
+            $products->photo = $filenameSimpan;
+            $request->file('photo')->storeAs('images', $filenameSimpan, 'public');
+        }
+        
         $products->save();
 
         $products = Product::all();
-        return view("pages.products.index", compact("products", "page"))->with("success", "Product created successfully.");
+        return redirect()
+            ->route("product/index")
+            ->with("success", "Product deleted successfully");
     }
 
     /**
@@ -135,6 +149,18 @@ class ProductController extends Controller
             'photo' => $request->photo,
             'link' => $request->link
         ]);
+
+        if($request->hasFile('photo')){
+            $filenameWithExt = $request->file('photo')->getClientOriginalName();
+            $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
+            $filenameSimpan = $filename.'_'.time().'.png';
+            $products->photo = $filenameSimpan;
+            $request->file('photo')->storeAs('images', $filenameSimpan, 'public');
+        }
+
+        if(File::exists(public_path('images/'.$products->photo))){
+            File::delete(public_path('images/'.$products->photo));
+        }
        
        return redirect()
             ->route("product/index")
@@ -151,6 +177,11 @@ class ProductController extends Controller
     {
         $page = "product";      
         $products = Product::findOrFail($id);
+
+        if(File::exists(public_path('images/'.$products->photo))){
+            File::delete(public_path('images/'.$products->photo));
+        }
+        
         $products->delete();
         
         $products = Product::all();

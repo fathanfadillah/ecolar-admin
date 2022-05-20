@@ -381,6 +381,18 @@
 
 <!-- Begin Page Content -->
 <div class="container-fluid">
+
+    @if ($message = Session::get('errors'))
+        <div class="alert alert-danger">
+            {{ $message }}
+        </div>
+    @endif
+
+    @if ($message = Session::get('success'))
+        <div class="alert alert-success">
+            {{ $message }}
+        </div>
+    @endif
     
     <!-- DataTales Example -->
     <div class="card shadow mb-4">
