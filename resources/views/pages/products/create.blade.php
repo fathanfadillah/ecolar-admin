@@ -381,6 +381,18 @@
 
 <!-- Begin Page Content -->
 <div class="container-fluid">
+
+    @if ($message = Session::get('errors'))
+        <div class="alert alert-danger">
+            {{ $message }}
+        </div>
+    @endif
+
+    @if ($message = Session::get('success'))
+        <div class="alert alert-success">
+            {{ $message }}
+        </div>
+    @endif
     
     <!-- DataTales Example -->
     <div class="card shadow mb-4">
@@ -390,7 +402,7 @@
             </h6>
         </div>
         <div class="card-body">
-                <form class="align-items-center" method="POST" action="{{ route('product/store') }}">
+                <form class="align-items-center" method="POST" action="{{ route('product/store') }}" enctype="multipart/form-data">
                     @csrf
                     <div class="row align-items-center g-3">
                         <div class="col-auto">
